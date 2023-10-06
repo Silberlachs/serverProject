@@ -36,26 +36,25 @@ check_project_existing(){
 
 create_sample_page(){
 
-    sudo touch /var/www/${PAGENAME}/public/index.php
+    touch /var/www/${PAGENAME}/public/index.php
     echo "<html>
     <head>
         <title>$PAGENAME</title>
     </head>
     <body>
         <h1>Success! The $PAGENAME virtual host is working!</h1>
-        <d><?php 
-            echo "server up and running!";
-            echo "installed on $(date)";
-            echo "Current PHP version: " . phpversion();
-            echo "server version: " . apache_get_version(); 
-        ?></d>
+        <d><?php echo "server up and running!"; ?>
+           <?php echo "installed on $(date)"; ?>
+           <?php echo "Current PHP version: " . phpversion(); ?>
+           <?php echo "server version: " . apache_get_version(); ?>
+        </d>
     </body>
 </html>" >> /var/www/${PAGENAME}/public/index.html
 }
 
 create_vhost_file(){
 
-    sudo touch /etc/apache2/sites-available/${PAGENAME}.conf
+    touch /etc/apache2/sites-available/${PAGENAME}.conf
     echo "<VirtualHost *:80>
 
     ServerAdmin $SERVERADMIN_EMAIL
@@ -65,14 +64,14 @@ create_vhost_file(){
 
     DocumentRoot /var/www/$PAGENAME/public
 
-    ErrorLog /var/log/apache2/$PAGENAME.log
-    CustomLog /var/www/$PAGENAME/log combined
-</VirtualHost>" >> touch /etc/apache2/sites-available/${PAGENAME}.conf
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>" >> /etc/apache2/sites-available/${PAGENAME}.conf
 }
 
 create_vhost_ssl_file(){
 
-    sudo touch /etc/apache2/sites-available/${PAGENAME}-ssl.conf
+    touch /etc/apache2/sites-available/${PAGENAME}-ssl.conf
     echo "<IfModule mod_ssl.c>
     <VirtualHost _default_:443>
 
@@ -83,15 +82,15 @@ create_vhost_ssl_file(){
 
         DocumentRoot /var/www/$PAGENAME/public
 
-        ErrorLog /var/log/apache2/$PAGENAME.log
-        CustomLog /var/www/$PAGENAME/log combined
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
 
         SSLEngine on
 
         SSLCertificateFile $SSLCertificateFile
         SSLCertificateKeyFile $SSLCertificateKeyFile
 
-        <FilesMatch "\.(cgi|shtml|phtml|php)$">
+        <FilesMatch \"\.(cgi|shtml|phtml|php)$\">
                         SSLOptions +StdEnvVars
         </FilesMatch>
         <Directory /usr/lib/cgi-bin>
@@ -99,20 +98,22 @@ create_vhost_ssl_file(){
         </Directory>
 
     </VirtualHost>
-</IfModule>" >> touch /etc/apache2/sites-available/${PAGENAME}-ssl.conf
+</IfModule>" >> /etc/apache2/sites-available/${PAGENAME}-ssl.conf
 }
 
 create_file_structure(){
     
-    sudo mkdir /var/www/${PAGENAME}
-    sudo mkdir /var/www/${PAGENAME}/public
-    sudo mkdir /var/www/${PAGENAME}/log
+    mkdir /var/www/${PAGENAME}
+    mkdir /var/www/${PAGENAME}/public
+    mkdir /var/www/${PAGENAME}/log
 
     create_sample_page
 
-    sudo chown -R www-data:www-data /var/www/${PAGENAME}
-    sudo chmod -R 755 /var/www/${PAGENAME}
+    chown -R www-data:www-data /var/www/${PAGENAME}
+    chmod -R 755 /var/www/${PAGENAME}
 }
+
+############################################################################
 
 read_page_name
 check_project_existing
@@ -126,10 +127,13 @@ fi
 
 if ${AUTO_ENABLE_PAGE}; then
     a2ensite ${PAGENAME}.conf
+    if ${SSL_ACTIVE}; then
+        a2ensite ${PAGENAME}-ssl.conf
+    fi
 fi
 
 if ${CREATE_LOCAL_HOSTS}; then
-    echo "127.0.0.1/$PAGENAME" >> /etc/hosts
+    echo "127.0.0.1/$PAGENAME $PAGENAME" >> /etc/hosts
 fi
 
 systemctl restart apache2

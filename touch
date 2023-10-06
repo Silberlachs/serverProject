@@ -1,0 +1,78 @@
+<VirtualHost *:80>
+
+    ServerAdmin top@kek.mate
+
+    ServerName lucky.com
+    ServerAlias www.lucky.com
+
+    DocumentRoot /var/www/lucky.com/public
+
+    ErrorLog /var/log/apache2/lucky.com.log
+    CustomLog /var/www/lucky.com/log combined
+</VirtualHost> /etc/apache2/sites-available/lucky.com.conf
+<IfModule mod_ssl.c>
+    <VirtualHost _default_:443>
+
+        ServerAdmin top@kek.mate
+
+        ServerName lucky.com
+        ServerAlias www.lucky.com
+
+        DocumentRoot /var/www/lucky.com/public
+
+        ErrorLog /var/log/apache2/lucky.com.log
+        CustomLog /var/www/lucky.com/log combined
+
+        SSLEngine on
+
+        SSLCertificateFile /etc/ssl/certs/ssl-cert-snakeoil.pem
+        SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+
+        <FilesMatch "\.(cgi|shtml|phtml|php)$">
+                        SSLOptions +StdEnvVars
+        </FilesMatch>
+        <Directory /usr/lib/cgi-bin>
+                        SSLOptions +StdEnvVars
+        </Directory>
+
+    </VirtualHost>
+</IfModule> /etc/apache2/sites-available/lucky.com-ssl.conf
+<VirtualHost *:80>
+
+    ServerAdmin top@kek.mate
+
+    ServerName lucky.com
+    ServerAlias www.lucky.com
+
+    DocumentRoot /var/www/lucky.com/public
+
+    ErrorLog /var/log/apache2/lucky.com.log
+    CustomLog /var/www/lucky.com/log combined
+</VirtualHost> /etc/apache2/sites-available/lucky.com.conf
+<IfModule mod_ssl.c>
+    <VirtualHost _default_:443>
+
+        ServerAdmin top@kek.mate
+
+        ServerName lucky.com
+        ServerAlias www.lucky.com
+
+        DocumentRoot /var/www/lucky.com/public
+
+        ErrorLog /var/log/apache2/lucky.com.log
+        CustomLog /var/www/lucky.com/log combined
+
+        SSLEngine on
+
+        SSLCertificateFile /etc/ssl/certs/ssl-cert-snakeoil.pem
+        SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+
+        <FilesMatch "\.(cgi|shtml|phtml|php)$">
+                        SSLOptions +StdEnvVars
+        </FilesMatch>
+        <Directory /usr/lib/cgi-bin>
+                        SSLOptions +StdEnvVars
+        </Directory>
+
+    </VirtualHost>
+</IfModule> /etc/apache2/sites-available/lucky.com-ssl.conf
