@@ -16,7 +16,9 @@ handling apache2 stuff. You can change the name in line 4, however.
 
 Put the script into your usr/local/bin folder to make it accessible from the command line.
 
-!!! Always be carefull when installing software this way !!!
+This is the normal way of "installing" software on linux, but you can setup a PATH variable for the script if you want to. 
+You can also just let it rest in your downloads folder, it does not really matter for the execution, just make sure it is
+marked as executable and you call it with sudo permissions.
 
 You can use this line to install it from your downloads folder:
 ```bash
