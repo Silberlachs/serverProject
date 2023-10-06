@@ -21,6 +21,12 @@ You can use this line to install it from your downloads folder:
 ```bash
 sudo chmod u+x multipage && mv multipage /bin/multipage
 ```
+Attention:
+Depending on whether or not you want to enable ssl for your page, you need to setup
+the correct paths before first use of the script, otherwise you will create useless
+ssl files without actually using ssl (your server might print an error message).
+A self-signed (snakeoil) certificate can be created by installing the ssl-cert package.
+Feel free to expand the create_vhost_ssl_file() function if you need additional ssl options.
 
 ## Usage
 

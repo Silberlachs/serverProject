@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# vars for script
 DIR="/var/www/"
 SERVERUSER="www-data"
+SERVERADMIN_EMAIL="top@kek.mate"
+SSL_ACTIVE=true
+SSLCertificateFile="/etc/ssl/certs/ssl-cert-snakeoil.pem"
+SSLCertificateKeyFile="/etc/ssl/private/ssl-cert-snakeoil.key"
 
 read_page_name(){
 
-    echo -n "Name for new Page: "
+    echo -n "Name for new Page (without www): "
     read PAGENAME
 }
 
@@ -30,6 +33,7 @@ check_project_existing(){
 }
 
 create_sample_page(){
+
     sudo touch /var/www/${PAGENAME}/public/index.php
     echo "<html>
     <head>
@@ -47,10 +51,60 @@ create_sample_page(){
 </html>" >> /var/www/${PAGENAME}/public/index.html
 }
 
+create_vhost_file(){
+
+    sudo touch /etc/apache2/sites-available/${PAGENAME}.conf
+    echo "<VirtualHost *:80>
+
+    ServerAdmin $SERVERADMIN_EMAIL
+
+    ServerName $PAGENAME
+    ServerAlias www.$PAGENAME
+    
+    DocumentRoot /var/www/$PAGENAME/public
+
+    ErrorLog /var/log/apache2/$PAGENAME.log
+    CustomLog /var/www/$PAGENAME/log combined
+</VirtualHost>" >> touch /etc/apache2/sites-available/${PAGENAME}.conf
+}
+
+create_vhost_ssl_file(){
+
+    sudo touch /etc/apache2/sites-available/${PAGENAME}-ssl.conf
+    echo "<IfModule mod_ssl.c>
+    <VirtualHost _default_:443>
+
+        ServerAdmin $SERVERADMIN_EMAIL
+
+        ServerName $PAGENAME
+        ServerAlias www.$PAGENAME
+
+        DocumentRoot /var/www/$PAGENAME/public
+
+        ErrorLog /var/log/apache2/$PAGENAME.log
+        CustomLog /var/www/$PAGENAME/log combined
+
+        SSLEngine on
+
+        SSLCertificateFile $SSLCertificateFile
+        SSLCertificateKeyFile $SSLCertificateKeyFile
+
+        <FilesMatch "\.(cgi|shtml|phtml|php)$">
+                        SSLOptions +StdEnvVars
+        </FilesMatch>
+        <Directory /usr/lib/cgi-bin>
+                        SSLOptions +StdEnvVars
+        </Directory>
+
+    </VirtualHost>
+</IfModule>" >> touch /etc/apache2/sites-available/${PAGENAME}.conf
+}
+
 create_file_structure(){
     
     sudo mkdir /var/www/${PAGENAME}
     sudo mkdir /var/www/${PAGENAME}/public
+    sudo mkdir /var/www/${PAGENAME}/log
 
     create_sample_page
 
@@ -62,3 +116,7 @@ read_page_name
 check_project_existing
 is_user_root
 create_file_structure
+create_vhost_file
+if ${SSL_ACTIVE}; then
+    create_vhost_ssl_file
+fi
