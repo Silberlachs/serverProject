@@ -6,9 +6,10 @@ all the folder structures
 
 ## Requirements
 
-An Ubuntu 20.04 server with a non-root user with sudo privileges. You can use our Initial Server Setup with Ubuntu 20.04 guide to set this up.
+An Ubuntu 20.04 server with a non-root user with sudo privileges. 
 
-Apache installed on the server. You can learn how by completing steps 1-3 on our How To Install the Apache Web Server on Ubuntu 20.04 tutorial.
+Apache installed on the server. This project assumes a www-data user responsible for 
+handling apache2 stuff. You can change the name in line 5, however.
 
 
 ## Installation
@@ -25,9 +26,8 @@ sudo chmod u+x multipage && mv multipage /bin/multipage
 
 ```shell
 
-# call with XYZ
-TODO: Write an explanation
-
+# call as superuser
+First, give a name for the new project ( e.g. mysite.com )
 
 ```
 

@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# vars for script
+DIR="/var/www/"
+SERVERUSER="www-data"
+
+read_page_name(){
+
+    echo -n "Name for new Page: "
+    read PAGENAME
+}
+
+is_user_root(){
+
+    if [ $(id -u) -ne 0 ]
+    then 
+        echo "Please run the script as root!"
+        exit 1
+    fi
+}
+
+check_project_existing(){
+
+    if [ -d "$DIR$PAGENAME/" ]; then
+        echo "Error: Project ${PAGENAME} already existing!"
+        exit 2
+    else
+        echo "Installing config files in ${DIR}${PAGENAME}/ ..."
+    fi
+}
+
+create_sample_page(){
+    sudo touch /var/www/${PAGENAME}/public/index.php
+    echo "<html>
+    <head>
+        <title>$PAGENAME</title>
+    </head>
+    <body>
+        <h1>Success! The $PAGENAME virtual host is working!</h1>
+        <d><?php 
+            echo "server up and running!";
+            echo "installed on $(date)";
+            echo "Current PHP version: " . phpversion();
+            echo "server version: " . apache_get_version(); 
+        ?></d>
+    </body>
+</html>" >> /var/www/${PAGENAME}/public/index.html
+}
+
+create_file_structure(){
+    
+    sudo mkdir /var/www/${PAGENAME}
+    sudo mkdir /var/www/${PAGENAME}/public
+
+    create_sample_page
+
+    sudo chown -R www-data:www-data /var/www/${PAGENAME}
+    sudo chmod -R 755 /var/www/${PAGENAME}
+}
+
+read_page_name
+check_project_existing
+is_user_root
+create_file_structure
