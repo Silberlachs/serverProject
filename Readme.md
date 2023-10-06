@@ -25,8 +25,8 @@ You can use this line to install it from your downloads folder:
 sudo chmod u+x ./multipage && mv ./multipage usr/local/bin/multipage
 ```
 
-Tl;wr
-Take 1 minute to look at the first 10 lines of the script, these are the options!
+[Tl;wr]
+The first lines of the script are the options, you might want to look over these.
 
 Depending on whether or not you want to enable ssl for your page, you need to setup
 the correct paths before first use of the script, otherwise you will create useless
@@ -35,7 +35,7 @@ A self-signed (snakeoil) certificate can be created by installing the ssl-cert p
 Feel free to expand the create_vhost_ssl_file() function if you need additional ssl options.
 
 There might be a little issue with your /etc/hosts file, i made sure the entries are inserted
-at the very top of the file ( because at the bottom there are the default ipv6 entries )
+at the very top of the file (because at the bottom there are the default ipv6 entries)
 However, we're useing the sed command which will not work if the file is completely empty.
 If you find your hosts file beeing completely empty, just add #comment and you're fine.
 
