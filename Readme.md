@@ -14,13 +14,15 @@ handling apache2 stuff. You can change the name in line 4, however.
 
 ## Installation
 
-Put the script into your /bin folder to make it accessible from the command line.
+Put the script into your usr/local/bin folder to make it accessible from the command line.
+
 !!! Always be carefull when installing software this way !!!
 
 You can use this line to install it from your downloads folder:
 ```bash
-sudo chmod u+x multipage && mv multipage /bin/multipage
+sudo chmod u+x ./multipage && mv ./multipage usr/local/bin/multipage
 ```
+
 Tl;wr
 Take 1 minute to look at the first 10 lines of the script, these are the options!
 
