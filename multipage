@@ -6,6 +6,8 @@ SERVERADMIN_EMAIL="top@kek.mate"
 SSL_ACTIVE=true
 SSLCertificateFile="/etc/ssl/certs/ssl-cert-snakeoil.pem"
 SSLCertificateKeyFile="/etc/ssl/private/ssl-cert-snakeoil.key"
+AUTO_ENABLE_PAGE=true
+CREATE_LOCAL_HOSTS=true
 
 read_page_name(){
 
@@ -60,7 +62,7 @@ create_vhost_file(){
 
     ServerName $PAGENAME
     ServerAlias www.$PAGENAME
-    
+
     DocumentRoot /var/www/$PAGENAME/public
 
     ErrorLog /var/log/apache2/$PAGENAME.log
@@ -97,7 +99,7 @@ create_vhost_ssl_file(){
         </Directory>
 
     </VirtualHost>
-</IfModule>" >> touch /etc/apache2/sites-available/${PAGENAME}.conf
+</IfModule>" >> touch /etc/apache2/sites-available/${PAGENAME}-ssl.conf
 }
 
 create_file_structure(){
@@ -117,6 +119,17 @@ check_project_existing
 is_user_root
 create_file_structure
 create_vhost_file
+
 if ${SSL_ACTIVE}; then
     create_vhost_ssl_file
 fi
+
+if ${AUTO_ENABLE_PAGE}; then
+    a2ensite ${PAGENAME}.conf
+fi
+
+if ${CREATE_LOCAL_HOSTS}; then
+    echo "127.0.0.1/$PAGENAME" >> /etc/hosts
+fi
+
+systemctl restart apache2
