@@ -133,7 +133,7 @@ if ${AUTO_ENABLE_PAGE}; then
 fi
 
 if ${CREATE_LOCAL_HOSTS}; then
-    echo "127.0.0.1/$PAGENAME $PAGENAME" >> /etc/hosts
+    sed -i "1s/^/127.0.0.1      $PAGENAME\n/" /etc/hosts
 fi
 
 systemctl restart apache2
