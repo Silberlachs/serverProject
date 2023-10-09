@@ -64,8 +64,15 @@ create_vhost_file(){
 
     DocumentRoot /var/www/$PAGENAME/public
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
+    <Directory  /var/www/insta-sulu.com/public>
+        Options Indexes FollowSymlinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog /var/www/${PAGENAME}/log/error.log
+    CustomLog /var/www/${PAGENAME}/log/access.log combined
+
 </VirtualHost>" >> /etc/apache2/sites-available/${PAGENAME}.conf
 }
 
@@ -82,8 +89,15 @@ create_vhost_ssl_file(){
 
         DocumentRoot /var/www/$PAGENAME/public
 
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
+        <Directory  /var/www/insta-sulu.com/public>
+            Options Indexes FollowSymlinks
+            AllowOverride All
+            Require all granted
+        </Directory>
+
+
+        ErrorLog /var/www/${PAGENAME}/log/error.log
+        CustomLog /var/www/${PAGENAME}/log/access.log combined
 
         SSLEngine on
 
@@ -111,6 +125,8 @@ create_file_structure(){
 
     chown -R www-data:www-data /var/www/${PAGENAME}
     chmod -R 755 /var/www/${PAGENAME}
+    chmod -R 775 /var/www/${PAGENAME}/log
+    
 }
 
 ############################################################################
