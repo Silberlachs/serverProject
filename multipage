@@ -43,11 +43,6 @@ create_sample_page(){
     </head>
     <body>
         <h1>Success! The $PAGENAME virtual host is working!</h1>
-        <d><?php echo "server up and running!"; ?>
-           <?php echo "installed on $(date)"; ?>
-           <?php echo "Current PHP version: " . phpversion(); ?>
-           <?php echo "server version: " . apache_get_version(); ?>
-        </d>
     </body>
 </html>" >> /var/www/${PAGENAME}/public/index.html
 }
