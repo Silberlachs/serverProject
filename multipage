@@ -152,4 +152,5 @@ if ${CREATE_LOCAL_HOSTS}; then
     sed -i "1s/^/127.0.0.1      $PAGENAME\n/" /etc/hosts
 fi
 
+nautilus /etc/apache2/sites-enabled/ && nautilus /var/www/${PAGENAME}
 systemctl restart apache2
