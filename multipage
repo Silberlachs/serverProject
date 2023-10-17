@@ -57,16 +57,16 @@ create_vhost_file(){
     ServerName $PAGENAME
     ServerAlias www.$PAGENAME
 
-    DocumentRoot /var/www/$PAGENAME/public
+    DocumentRoot $DIR$PAGENAME/public
 
-    <Directory  /var/www/$PAGENAME/public>
+    <Directory  $DIR$PAGENAME/public>
         Options Indexes FollowSymlinks
         AllowOverride All
         Require all granted
     </Directory>
 
-    ErrorLog /var/www/${PAGENAME}/log/error.log
-    CustomLog /var/www/${PAGENAME}/log/access.log combined
+    ErrorLog $DIR$PAGENAME/log/error.log
+    CustomLog $DIR$PAGENAME/log/access.log combined
 
 </VirtualHost>" >> /etc/apache2/sites-available/${PAGENAME}.conf
 }
@@ -82,17 +82,17 @@ create_vhost_ssl_file(){
         ServerName $PAGENAME
         ServerAlias www.$PAGENAME
 
-        DocumentRoot /var/www/$PAGENAME/public
+        DocumentRoot $DIR$PAGENAME/public
 
-        <Directory  /var/www/$PAGENAME/public>
+        <Directory  $DIR$PAGENAME/public>
             Options Indexes FollowSymlinks
             AllowOverride All
             Require all granted
         </Directory>
 
 
-        ErrorLog /var/www/${PAGENAME}/log/error.log
-        CustomLog /var/www/${PAGENAME}/log/access.log combined
+        ErrorLog $DIR$PAGENAME/log/error.log
+        CustomLog $DIR$PAGENAME/log/access.log combined
 
         SSLEngine on
 
