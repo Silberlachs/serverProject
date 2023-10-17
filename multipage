@@ -64,7 +64,7 @@ create_vhost_file(){
 
     DocumentRoot /var/www/$PAGENAME/public
 
-    <Directory  /var/www/insta-sulu.com/public>
+    <Directory  /var/www/$PAGENAME/public>
         Options Indexes FollowSymlinks
         AllowOverride All
         Require all granted
@@ -89,7 +89,7 @@ create_vhost_ssl_file(){
 
         DocumentRoot /var/www/$PAGENAME/public
 
-        <Directory  /var/www/insta-sulu.com/public>
+        <Directory  /var/www/$PAGENAME/public>
             Options Indexes FollowSymlinks
             AllowOverride All
             Require all granted
