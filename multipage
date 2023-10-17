@@ -109,7 +109,7 @@ create_vhost_ssl_file(){
     </VirtualHost>
 </IfModule>" >> /etc/apache2/sites-available/${PAGENAME}-ssl.conf
 }
-
+test
 create_file_structure(){
     
     mkdir ${DIR}${PAGENAME}
@@ -147,5 +147,4 @@ if ${CREATE_LOCAL_HOSTS}; then
     sed -i "1s/^/127.0.0.1      $PAGENAME\n/" /etc/hosts
 fi
 
-nautilus /etc/apache2/sites-enabled/ && nautilus /var/www/${PAGENAME}
 systemctl restart apache2
