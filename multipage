@@ -44,7 +44,7 @@ create_sample_page(){
     <body>
         <h1>Success! The $PAGENAME virtual host is working!</h1>
     </body>
-</html>" >> /var/www/${PAGENAME}/public/index.html
+</html>" >> ${DIR}${PAGENAME}/public/index.html
 }
 
 create_vhost_file(){
