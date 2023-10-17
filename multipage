@@ -112,15 +112,15 @@ create_vhost_ssl_file(){
 
 create_file_structure(){
     
-    mkdir /var/www/${PAGENAME}
-    mkdir /var/www/${PAGENAME}/public
-    mkdir /var/www/${PAGENAME}/log
+    mkdir ${DIR}${PAGENAME}
+    mkdir ${DIR}${PAGENAME}/public
+    mkdir ${DIR}${PAGENAME}/log
 
     create_sample_page
 
-    chown -R www-data:www-data /var/www/${PAGENAME}
-    chmod -R 755 /var/www/${PAGENAME}
-    chmod -R 775 /var/www/${PAGENAME}/log
+    chown -R www-data:www-data ${DIR}${PAGENAME}
+    chmod -R 755 ${DIR}${PAGENAME}
+    chmod -R 775 ${DIR}${PAGENAME}log
     
 }
 
