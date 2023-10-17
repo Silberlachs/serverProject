@@ -36,7 +36,7 @@ check_project_existing(){
 
 create_sample_page(){
 
-    touch /var/www/${PAGENAME}/public/index.php
+    touch ${DIR}${PAGENAME}/public/index.php
     echo "<html>
     <head>
         <title>$PAGENAME</title>
